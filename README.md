@@ -1,3 +1,14 @@
+# Table of Contents
+* [What is this?](#what-is-this) 	
+* Methodology	
+* Problem Analysis
+   * Summary of Freescale semiconductor module connections	
+* Flowchart	
+* Debugging strategy	
+* Video demonstration of the Laboratory Centrifuge program (YouTube)
+
+
+
 # Freescale Laboratory Centrifuge
 The control and implementation of an embedded system simulationg a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
 
