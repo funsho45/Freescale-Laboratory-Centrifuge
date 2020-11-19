@@ -3,14 +3,14 @@
 * [Methodology](#methodology)
 * [Problem Analysis](problem-analysis)
    * [Summary of Freescale semiconductor module connections](#summary-of-freescale-semiconductor-module-connections)
-* [Flowchart](#flowchart)	
+* [Flowchart](#flowchart-of-the-program)
 * [Debugging strategy](#debugging-strategy)	
-* [Video demonstration of the Laboratory Centrifuge program (YouTube)](#video-demonstration-of-the-laboratory-centrifuge-program(youtube))
+* [Video demonstration of the Laboratory Centrifuge program](#video-demonstration-of-the-laboratory-centrifuge-program)
 
 
 
 # Freescale Laboratory Centrifuge
-The control and implementation of an embedded system simulationg a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
+The control and implementation of an embedded system simulating a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
 
 # What is this?
 For this project, the task is to design a laboratory centrifuge, medical equipment driven by a motor that spins liquid samples and high speeds, for a manufacturer that develop medical equipment. A 4MHz Freescale HSC12 microcontroller board shown in Figure 1, is used to design, program and implement an embedded system. The program is written in the C programming language.
@@ -136,7 +136,7 @@ Table 6: Cursor address for a 20x4 LCD
 
 Table 7: Summary of Freescale semiconductor module connections
 
-# Flowchartfor the program
+# Flowchart of the program
 ![image](https://user-images.githubusercontent.com/73448401/99717110-dc0e7100-2aa0-11eb-863e-fd2e4c17ab4a.png)
 
 # Debugging strategy
@@ -192,8 +192,8 @@ LCDcmd(0xC0);   // 2nd row
         LCDcmd(0xCF);
         display("RPM");
 ```
-# Video demonstration of the Laboratory Centrifuge program (YouTube)
+# Video demonstration of the Laboratory Centrifuge program
 
-This is a video clip demonstration uploaded to my YouTube channel of the program’s performance. Click the image below :)
+This is a video clip demonstration uploaded to my YouTube channel of the program’s performance. Click the image below to watch :)
 
 [![](http://img.youtube.com/vi/aTAbPgXhVFk/0.jpg)](http://www.youtube.com/watch?v=aTAbPgXhVFk "")
