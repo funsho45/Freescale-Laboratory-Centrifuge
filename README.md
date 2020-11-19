@@ -1,5 +1,5 @@
 # Freescale Laboratory Centrifuge
-The control and implementation of an embedded system for a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
+The control and implementation of an embedded system simulationg a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
 
 # What is this?
 For this project, the task is to design a laboratory centrifuge, medical equipment driven by a motor that spins liquid samples and high speeds, for a manufacturer that develop medical equipment. A 4MHz Freescale HSC12 microcontroller board shown in Figure 1, is used to design, program and implement an embedded system. The program is written in the C programming language.
@@ -8,7 +8,7 @@ The Freescale Codewarrior integrated development environment (IDE) and its simul
 
 ![Freescale PBMCUSLK Axiom MCU Microcontroller Project Board](https://user-images.githubusercontent.com/73448401/99710254-3a832180-2a98-11eb-9de6-10a0aa40eb72.jpg)
    
-Freescale PBMCUSLK Axiom MCU Microcontroller Project Board
+Figure 1: Freescale PBMCUSLK Axiom MCU Microcontroller Project Board
 
 # Methodology
 
@@ -32,9 +32,15 @@ As mentioned previously, the Freescale CodeWarrior 5.9.0 IDE will be used for pr
 |     Out of balance vibrations simulator (Photosensor)                            |     ANALOGUE INPUT    |
 |     Display for Current and desired speed and for vibration values (20x4 LCD)    |     DIGITAL OUTPUT    |
 
+Table 1: A description of the functions for the laboratory centrifuge simulation and its appropriate signals
+
 ![Circuit schematic for the four LEDs](https://user-images.githubusercontent.com/73448401/99714684-cba8c700-2a9d-11eb-94e2-c563dbd1dc88.jpg)
 
+Figure 2: Circuit schematic for the four LEDs
+
 ![image](https://user-images.githubusercontent.com/73448401/99714832-f98e0b80-2a9d-11eb-8da0-dc8a42a5279a.png)
+
+Figure 3: Freescale semiconductor connections of the Laboratory Centrifuge
 
 # Problem Analysis
 
@@ -44,17 +50,23 @@ The registers for the ATD need to be declared before initiating and running the 
 |-------------|-------------|-------------|----------------|---------------|---------------|--------------|--------------|
 |     1       |     0       |     0       |     0          |     0         |     0         |     0        |     0        |
 
+Table 2: ATDCTL2 (A/D Control Register 2)
+
 Another significant control register of the HCS12 is the ATDCTL3, which is utilised to select the number of conversions per sequence. For this program, the desired number of conversions per sequence was three (S1C =1 S2C=1), two for both POTs and one for the photosensor, which results were obtained from the ATDDDR registers and inputs converted by the ATD. The conversion still happens during the breakpoint (FRZ1=0, FRZ0=0), with the conversion result placed in the corresponding result register (FIFO=0).The full declaration for ATDCTL3 is shown in Table 3.
 
 |     0    |     S8C    |     S4C    |     S2C    |     S1C    |     FIFO    |     FRZ1    |     FRZ0    |
 |----------|------------|------------|------------|------------|-------------|-------------|-------------|
 |     0    |     0      |     0      |     1      |     1      |     0       |     0       |     0       |
 
+Table 3: ATDCTL3 (A/D Control Register 3)
+
 For the HCS12 ATD the resolution, sampling time, and conversion time are programmable using the ATDCTL4. For this program, an eight-bit resolution was chosen by setting the SRES bit = 1. To have the length of the A/D clock period to be two, the sample time bits were SMP1 = 0 and the SMP0 = 0. Moreover, the A/D clock pre-scaler bits were set as PRES4=0, PRES3=0, PRES2=0, PRES1=0, PRES0=0 to divide the bus clock by two. The full declaration for ATDCTL4 is shown in Table 4.
 
 |     SRES8    |     SMP1    |     SMP0    |     PRS4    |     PRS3    |     PRS2    |     PRS1    |     PRS0    |
 |--------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
 |     1        |     0       |     0       |     0       |     0       |     0       |     0       |     0       |
+
+Table 4: ATDCTL4 (A/D Control Register 4)
 
 For the program, one input will be utilised via the push switch button, and four outputs for the LEDs will be used. In the program, the various inputs and outputs have been declared. Bits 0 to 3 for PORTB are set up as outputs, with bits 4 to 7 as inputs by setting its data direction register (DDR) as DDRB=0x0F. PORTA will be used for the LCD screen with its DDR being set as an output (DDRA=0xFF). The initiation of the ATD converter starts and then, the initial state the program begins with the start (PORTB_BIT0) and break (PORTB_BIT2) LEDs turning on and off.
 
@@ -63,6 +75,8 @@ In the endless for loop, the ATDCTL5 register is declared and is utilised to sel
 |     DJM    |     DSGN    |     SCAN    |     MULT    |     0    |     CC    |     CB    |     CA    |
 |------------|-------------|-------------|-------------|----------|-----------|-----------|-----------|
 |     1      |     0       |     0       |     1       |     0    |     1     |     0     |     0     |
+
+Table 5: ATDCTL5 (A/D Control Register 5)
 
 The conversion results for the first and second POTs on the MCU and the Freescale board were stored in the ATDDR0L and ATDDR1L variables respectively, while the results the photosensor was stored in the variable ATDDR2L.
 
@@ -76,12 +90,16 @@ After the pushbutton switch is pressed and the green LED is on, the already init
 
 ![image](https://user-images.githubusercontent.com/73448401/99716434-027fdc80-2aa0-11eb-8aab-8f29f6a697e3.png)
 
+Figure 4: 20x4 Character LCD Module Display
+
 |     20x4 LCD    |           |           |           |           |           |           |           |           |           |           |           |           |           |           |           |           |           |           |           |
 |-----------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 |     80          |     81    |     82    |     83    |     84    |     85    |     86    |     87    |     88    |     89    |     8A    |     8B    |     8C    |     8D    |     8E    |     8F    |     90    |     91    |     92    |     93    |
 |     CO          |     C1    |     C2    |     C3    |     C4    |     C5    |     C6    |     C7    |     C8    |     C9    |     CA    |     CB    |     CC    |     CD    |     CE    |     CF    |     D0    |     D1    |     D2    |     D3    |
 |     94          |     95    |     96    |     97    |     98    |     99    |     9A    |     9B    |     9C    |     9D    |     9E    |     9F    |     A0    |     A1    |     A2    |     A3    |     A4    |     A5    |     A6    |     A7    |
 |     D4          |     D5    |     D6    |     D7    |     D8    |     D9    |     DA    |     DB    |     DC    |     DD    |     DE    |     DF    |     E0    |     E1    |     E2    |     E3    |     E4    |     E5    |     E6    |     E7    |
+
+Table 6: Cursor address for a 20x4 LCD
 
 # Summary of Freescale semiconductor module connections
 
@@ -104,6 +122,8 @@ After the pushbutton switch is pressed and the green LED is on, the already init
 |                                                              |     Data pin D5   on the 20x4 LCD was assigned to PA5 and was   set up as an output.    |
 |                                                              |     Data pin D6   on the 20x4 LCD was assigned to PA6 and was   set up as an output.    |
 |                                                              |     Data pin D7 on the 20x4 LCD was assigned to PA7 and was set up as an output.        |
+
+Table 7: Summary of Freescale semiconductor module connections
 
 # Flowchartfor the program
 ![image](https://user-images.githubusercontent.com/73448401/99717110-dc0e7100-2aa0-11eb-863e-fd2e4c17ab4a.png)
