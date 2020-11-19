@@ -4,8 +4,8 @@
 * [Problem Analysis](problem-analysis)
    * [Summary of Freescale semiconductor module connections](#summary-of-freescale-semiconductor-module-connections)
 * [Flowchart](#flowchart)	
-* [Debugging strategy](Debugging strategy)	
-* [Video demonstration of the Laboratory Centrifuge program (YouTube)]()
+* [Debugging strategy](#debugging-strategy)	
+* [Video demonstration of the Laboratory Centrifuge program (YouTube)](#video-demonstration-of-the-laboratory-centrifuge-program-(youtube))
 
 
 
