@@ -1,11 +1,11 @@
 # Table of Contents
 * [What is this?](#what-is-this) 	
-* Methodology	
-* Problem Analysis
-   * Summary of Freescale semiconductor module connections	
-* Flowchart	
-* Debugging strategy	
-* Video demonstration of the Laboratory Centrifuge program (YouTube)
+* [Methodology](#methodology)
+* [Problem Analysis](problem-analysis)
+   * [Summary of Freescale semiconductor module connections](#summary-of-freescale-semiconductor-module-connections)
+* [Flowchart](#flowchart)	
+* [Debugging strategy](Debugging strategy)	
+* [Video demonstration of the Laboratory Centrifuge program (YouTube)]()
 
 
 
@@ -139,4 +139,60 @@ Table 7: Summary of Freescale semiconductor module connections
 # Flowchartfor the program
 ![image](https://user-images.githubusercontent.com/73448401/99717110-dc0e7100-2aa0-11eb-863e-fd2e4c17ab4a.png)
 
+# Debugging strategy
 
+The program needed to begin once the push button was pressed and the green LED was on. An if statement was created with the condition that unless the push button was pressed, the LED would turn on. However, there was no condition for the program to begin if the pushbutton was pressed, letting the program function regardless of the pushbutton. So, the integer called “activate” was created as a global variable storing the value of zero, and was placed in an if statement with the condition being that if the “activate” integer variable was equal to one, then the program would begin. So, the previous if statement before this was written as the following:
+
+   
+    if (!PORTB_BIT4){
+      PORTB_BIT0 = 0xFF;  //Green light
+      activate = 1; 
+    }
+   
+This made the activate variable equal to one, which in turn allowed the condition of the if statement after this be true, but only when the pushbutton had been pressed which was what had been desired.
+To display the analogue values of the POTs and of the photosensor a function was created to convert the integer values of the analogue readings into a string format. The way the function would work is that whatever number value placed into the function it will return a string equivalent of that value. The “sprint()” function utilised to convert the number value to the string and the “LCData()” function created before was used to display them on the LCD screen as shown below:
+```
+void lcdnumber (int intergerToBeDisplayed)
+{  
+  char stringNumber[5];
+  (void)far_sprintf (stringNumber, "%d ",intergerToBeDisplayed );
+  LCData(stringNumber);
+}
+```
+However, the problem with this function was the inclusion of the “LCData()” function, as when displaying a string which was more than one character it will only display the first letter of that string. The more appropriate function to include was the “display” function, as that was able to display more than one character from the string inputted and resolved the problem, giving the function the new form shown below:
+```
+void lcdnumber (int intergerToBeDisplayed)
+{  
+  char stringNumber[5];
+  (void)far_sprintf (stringNumber, "%d ",intergerToBeDisplayed );
+  display(stringNumber);
+}
+```
+It is important that each initiation of the LCD that it clears the previous data written to the LCD. The “LCDclear” function does just that and is inputted into the main function so that it clears to display only once so that new data can be written to the LCD. However, when it comes to the analogue values converted to string format from the two POTs and the photosensor, which are dynamically changing, the characters stay there until the LCD is overwritten again. An attempt to solve this issue was to put the “LCDclear()” function after the analogue value, as shown below:
+```
+LCDcmd(0xC0);   // 2nd row
+display("Req.Speed:");//POINTER METHOD
+LCDcmd(0xCA);
+lcdnumber(RequiredSpeed);
+LCDclear();
+LCDcmd(0xCF);
+display("RPM");
+```
+The problem with this, however, is that running this code on the LCD screen causes the it to flicker, as it is constantly clearing the written data on the LCD since its in a forever for loop. To solve this, the characters of strings representing the analogue values was overwritten with a blank space (“ ”) to give it the impression that the characters were erased. This solution was placed in an if conditional statement saying that if the analogue value was less than 1000, 100 or 10 the previous value will be overwritten for bank space, allowing for new data or a new analogue value to be written and displayed as shown below.
+```
+LCDcmd(0xC0);   // 2nd row
+        display("Req.Speed:");//POINTER METHOD
+        LCDcmd(0xCA);
+        lcdnumber(RequiredSpeed);
+        ////////
+        if (RequiredSpeed < 1000) display(" ");
+        if (RequiredSpeed < 100) display(" ");
+        if (RequiredSpeed < 10) display(" ");
+        ////////
+        LCDcmd(0xCF);
+        display("RPM");
+```
+# Video demonstration of the Laboratory Centrifuge program (YouTube)
+
+This is a video clip demonstration uploaded to my YouTube channel of the program’s performance. Click the image below :)
+[![](http://img.youtube.com/vi/aTAbPgXhVFk/0.jpg)](http://www.youtube.com/watch?v=aTAbPgXhVFk "")
