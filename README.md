@@ -1,3 +1,6 @@
+# Freescale Laboratory Centrifuge
+The control and implementation of an embedded system simulating a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
+
 # Table of Contents
 * [What is this?](#what-is-this) 	
 * [Methodology](#methodology)
@@ -7,10 +10,6 @@
 * [Debugging strategy](#debugging-strategy)	
 * [Video demonstration of the Laboratory Centrifuge program](#video-demonstration-of-the-laboratory-centrifuge-program)
 
-
-
-# Freescale Laboratory Centrifuge
-The control and implementation of an embedded system simulating a laboratory centrifuge using the 4MHz Freescale HSC12 microcontroller board 
 
 # What is this?
 For this project, the task is to design a laboratory centrifuge, medical equipment driven by a motor that spins liquid samples and high speeds, for a manufacturer that develop medical equipment. A 4MHz Freescale HSC12 microcontroller board shown in **Figure 1**, is used to design, program and implement an embedded system. The program is written in the C programming language.
