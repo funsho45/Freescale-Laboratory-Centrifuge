@@ -1,7 +1,7 @@
 # Table of Contents
 * [What is this?](#what-is-this) 	
 * [Methodology](#methodology)
-* [Problem Analysis](problem-analysis)
+* [Problem Analysis](#problem-analysis)
    * [Summary of Freescale semiconductor module connections](#summary-of-freescale-semiconductor-module-connections)
 * [Flowchart](#flowchart-of-the-program)
 * [Debugging strategy](#debugging-strategy)	
